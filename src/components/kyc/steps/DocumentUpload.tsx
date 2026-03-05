@@ -38,16 +38,19 @@ interface ImageSlotProps {
 
 function ImageSlot({ slot, label, image, inputRef, hint, icon, onFileChange }: ImageSlotProps) {
   return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium text-gray-700">{label}</p>
+    <div className="space-y-1.5">
+      <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">{label}</p>
       <motion.button
         type="button"
         onClick={() => inputRef.current?.click()}
         whileTap={{ scale: 0.98 }}
         className={`
-          relative w-full h-44 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center
-          overflow-hidden transition-all duration-200 cursor-pointer
-          ${image ? "border-[#F47920] bg-[#FFF3E8]/50" : "border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300"}
+          relative w-full h-40 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center
+          overflow-hidden cursor-pointer
+          ${image
+            ? "border-[#F47920] bg-[#FFF9F5]"
+            : "border-gray-200 bg-gray-50/80 hover:bg-white hover:border-[#F47920]/40 hover:shadow-sm"
+          }
         `}
       >
         {image ? (
@@ -55,32 +58,36 @@ function ImageSlot({ slot, label, image, inputRef, hint, icon, onFileChange }: I
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={image} alt={label} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/20 flex items-end justify-center pb-3">
-              <div className="bg-white/90 text-[#F47920] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
+              <div className="bg-white/95 text-[#F47920] text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                Modifier
+                Modifier la photo
               </div>
             </div>
           </>
         ) : (
-          <div className="flex flex-col items-center gap-3 text-gray-400 p-4">
+          <div className="flex flex-col items-center gap-2.5 text-gray-400 p-4">
             {icon || (
-              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2}
-                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2}
-                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
+                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
             )}
-            <span className="text-sm font-medium text-gray-500">
-              Appuyez pour photographier
-            </span>
-            {hint && <span className="text-xs text-center">{hint}</span>}
+            <div className="text-center">
+              <span className="text-sm font-semibold text-gray-600 block">
+                Appuyez pour photographier
+              </span>
+              {hint && <span className="text-xs text-gray-400 mt-0.5 block">{hint}</span>}
+            </div>
           </div>
         )}
       </motion.button>
@@ -150,27 +157,35 @@ function ProcessingIndicator() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center gap-4 py-6">
+    <div className="flex flex-col items-center gap-5 py-8">
       <div className="relative w-20 h-20">
         <svg className="animate-spin w-20 h-20 text-[#F47920]" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="4" strokeOpacity="0.2" />
+          <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="4" strokeOpacity="0.15" />
           <path
             d="M40 4 a36 36 0 0 1 36 36"
-            stroke="#F47920"
+            stroke="url(#spinGrad)"
             strokeWidth="4"
             strokeLinecap="round"
           />
+          <defs>
+            <linearGradient id="spinGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#F47920" />
+              <stop offset="100%" stopColor="#E63312" />
+            </linearGradient>
+          </defs>
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <svg className="w-8 h-8 text-[#F47920]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-            />
-          </svg>
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FFF3E8] to-[#FFE4CC] flex items-center justify-center">
+            <svg className="w-5 h-5 text-[#F47920]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              />
+            </svg>
+          </div>
         </div>
       </div>
-      <div className="text-center space-y-1">
-        <p className="font-semibold text-gray-900">Vérification en cours</p>
+      <div className="text-center space-y-1.5">
+        <p className="font-bold text-gray-900 text-base">Vérification en cours</p>
         <AnimatePresence mode="wait">
           <motion.p
             key={current}
@@ -183,14 +198,14 @@ function ProcessingIndicator() {
           </motion.p>
         </AnimatePresence>
       </div>
-      <div className="flex gap-1">
+      <div className="flex gap-1.5 items-center">
         {checks.map((_, i) => (
           <motion.div
             key={i}
-            className={`h-1 rounded-full transition-all duration-300 ${
-              i <= current ? "bg-[#F47920]" : "bg-gray-200"
+            className={`h-1.5 rounded-full transition-all duration-400 ${
+              i <= current ? "bg-gradient-to-r from-[#F47920] to-[#E63312]" : "bg-gray-200"
             }`}
-            style={{ width: i <= current ? 20 : 8 }}
+            style={{ width: i <= current ? 24 : 8 }}
           />
         ))}
       </div>
@@ -289,15 +304,20 @@ export default function DocumentUpload({
       transition={{ duration: 0.3 }}
       className="w-full"
     >
-      <div className="text-center mb-6 space-y-2">
-        <div className="w-16 h-16 rounded-2xl bg-[#FFF3E8] flex items-center justify-center mx-auto mb-4">
+      <div className="text-center mb-5 space-y-2">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+          className="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#FFF3E8] to-[#FFE4CC] flex items-center justify-center mx-auto mb-3 shadow-md shadow-orange-100"
+        >
           <svg className="w-8 h-8 text-[#F47920]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
               d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0"
             />
           </svg>
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900">Pièce d&apos;identité</h2>
+        </motion.div>
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Pièce d&apos;identité</h2>
         <p className="text-gray-500 text-sm">
           Photographiez votre document dans un endroit bien éclairé.
         </p>
@@ -317,18 +337,18 @@ export default function DocumentUpload({
           >
             {/* Result card */}
             <div
-              className={`rounded-2xl p-5 border-2 ${
+              className={`rounded-2xl p-5 border-2 shadow-md ${
                 verification.result.status === "verified"
-                  ? "bg-green-50 border-green-200"
-                  : "bg-red-50 border-red-200"
+                  ? "bg-green-50 border-green-200 shadow-green-100"
+                  : "bg-red-50 border-red-200 shadow-red-100"
               }`}
             >
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-md ${
                     verification.result.status === "verified"
-                      ? "bg-green-500"
-                      : "bg-red-400"
+                      ? "bg-gradient-to-br from-green-400 to-green-600 shadow-green-200"
+                      : "bg-gradient-to-br from-red-400 to-red-600 shadow-red-200"
                   }`}
                 >
                   {verification.result.status === "verified" ? (
@@ -342,25 +362,25 @@ export default function DocumentUpload({
                   )}
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900">
+                  <p className="font-bold text-gray-900 text-base">
                     {verification.result.status === "verified"
                       ? "Document vérifié ✓"
                       : "Vérification échouée"}
                   </p>
-                  <p className="text-sm text-gray-600">
-                    Confiance : {verification.result.confidence}%
+                  <p className="text-sm text-gray-500">
+                    Score de confiance : <span className="font-bold">{verification.result.confidence}%</span>
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <CheckRow ok={verification.result.checks.quality} label="Qualité d'image satisfaisante" />
                 <CheckRow ok={verification.result.checks.authenticity} label="Document authentique" />
                 <CheckRow ok={verification.result.checks.faceMatch} label="Correspondance biométrique" />
                 <CheckRow ok={verification.result.checks.expiry} label="Document non expiré" />
               </div>
 
-              <p className={`mt-3 text-sm ${
+              <p className={`mt-3 text-sm font-medium ${
                 verification.result.status === "verified" ? "text-green-700" : "text-red-700"
               }`}>
                 {verification.result.message}
@@ -393,16 +413,18 @@ export default function DocumentUpload({
         ) : (
           <motion.div key="form" className="space-y-4">
             {/* Document type */}
-            <Select
-              label="Type de document"
-              options={DOC_TYPE_OPTIONS}
-              placeholder="Sélectionner..."
-              value={data.documentType}
-              onChange={(e) =>
-                onUpdate({ documentType: e.target.value as DocumentType })
-              }
-              required
-            />
+            <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.09)] p-4">
+              <Select
+                label="Type de document"
+                options={DOC_TYPE_OPTIONS}
+                placeholder="Sélectionner..."
+                value={data.documentType}
+                onChange={(e) =>
+                  onUpdate({ documentType: e.target.value as DocumentType })
+                }
+                required
+              />
+            </div>
 
             {data.documentType && (
               <motion.div
@@ -410,82 +432,93 @@ export default function DocumentUpload({
                 animate={{ opacity: 1, height: "auto" }}
                 className="space-y-4"
               >
-                {/* Document number & expiry */}
-                <div className="grid grid-cols-2 gap-3">
-                  <Input
-                    label="Numéro du document"
-                    placeholder="Ex: TG1234567"
-                    value={data.documentNumber}
-                    onChange={(e) =>
-                      onUpdate({ documentNumber: e.target.value.toUpperCase() })
-                    }
-                    required
-                  />
-                  <Input
-                    label="Date d'expiration"
-                    type="date"
-                    min={new Date().toISOString().split("T")[0]}
-                    value={data.documentExpiry}
-                    onChange={(e) => onUpdate({ documentExpiry: e.target.value })}
-                    required
-                  />
-                </div>
-
-                {/* Tips banner */}
-                <div className="bg-blue-50 rounded-xl p-3 flex gap-2.5 items-start">
-                  <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                {/* Document details */}
+                <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.09)] p-4 space-y-3">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Détails du document</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Input
+                      label="Numéro du document"
+                      placeholder="Ex: TG1234567"
+                      value={data.documentNumber}
+                      onChange={(e) =>
+                        onUpdate({ documentNumber: e.target.value.toUpperCase() })
+                      }
+                      required
                     />
-                  </svg>
-                  <ul className="text-xs text-blue-700 space-y-0.5">
-                    <li>• Photo nette, fond uni, bonne luminosité</li>
-                    <li>• Tous les 4 coins du document visibles</li>
-                    <li>• Pas de reflets ni d&apos;ombres sur la photo</li>
-                  </ul>
+                    <Input
+                      label="Date d'expiration"
+                      type="date"
+                      min={new Date().toISOString().split("T")[0]}
+                      value={data.documentExpiry}
+                      onChange={(e) => onUpdate({ documentExpiry: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  {/* Tips banner */}
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 flex gap-3 items-start border border-blue-100">
+                    <div className="w-7 h-7 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                      <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <ul className="text-xs text-blue-700 space-y-1 font-medium">
+                      <li>Photo nette, fond uni, bonne luminosité</li>
+                      <li>Tous les 4 coins du document visibles</li>
+                      <li>Pas de reflets ni d&apos;ombres sur la photo</li>
+                    </ul>
+                  </div>
                 </div>
 
-                {/* Front photo */}
-                <ImageSlot
-                  slot="front"
-                  label="Recto du document"
-                  image={data.documentFrontImage}
-                  inputRef={frontRef}
-                  hint="Photo face principale avec votre visage"
-                  onFileChange={handleFileChange}
-                />
-
-                {/* Back photo (only for CNI / Permis) */}
-                {needsBack && (
+                {/* Photos section */}
+                <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.09)] p-4 space-y-4">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Photos du document</p>
+                  {/* Front photo */}
                   <ImageSlot
-                    slot="back"
-                    label="Verso du document"
-                    image={data.documentBackImage}
-                    inputRef={backRef}
-                    hint="Photo face arrière du document"
+                    slot="front"
+                    label="Recto du document"
+                    image={data.documentFrontImage}
+                    inputRef={frontRef}
+                    hint="Face principale avec votre photo"
                     onFileChange={handleFileChange}
                   />
-                )}
 
-                {/* Selfie */}
-                <ImageSlot
-                  slot="selfie"
-                  label="Selfie de vérification"
-                  image={data.selfieImage}
-                  inputRef={selfieRef}
-                  hint="Photo de votre visage en tenant le document"
-                  onFileChange={handleFileChange}
-                  icon={
-                    <svg className="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2}
-                        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  }
-                />
+                  {/* Back photo (only for CNI / Permis) */}
+                  {needsBack && (
+                    <ImageSlot
+                      slot="back"
+                      label="Verso du document"
+                      image={data.documentBackImage}
+                      inputRef={backRef}
+                      hint="Face arrière du document"
+                      onFileChange={handleFileChange}
+                    />
+                  )}
+
+                  {/* Selfie */}
+                  <ImageSlot
+                    slot="selfie"
+                    label="Selfie de vérification"
+                    image={data.selfieImage}
+                    inputRef={selfieRef}
+                    hint="Photo de votre visage en tenant le document"
+                    onFileChange={handleFileChange}
+                    icon={
+                      <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
+                        <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                    }
+                  />
+                </div>
 
                 {error && (
-                  <p className="text-xs text-[#E63312] text-center">{error}</p>
+                  <p className="text-xs text-[#E63312] text-center font-medium">{error}</p>
                 )}
 
                 <div className="flex gap-3 pt-1">

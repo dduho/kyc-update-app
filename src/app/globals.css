@@ -5,8 +5,12 @@
   --moov-orange-dark: #D4600A;
   --moov-orange-light: #FFF3E8;
   --moov-red: #E63312;
-  --background: #f8f9fa;
+  --background: #F0F4F8;
   --foreground: #1a1a2e;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --input-border: #E2E8F0;
+  --input-focus-shadow: 0 0 0 3px rgba(244, 121, 32, 0.15);
 }
 
 @theme inline {
@@ -37,6 +41,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Gradient background pattern */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 45% at 50% 0%, rgba(244, 121, 32, 0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 95% 95%, rgba(230, 51, 18, 0.08) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > div {
+  position: relative;
+  z-index: 1;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 4px;
@@ -45,8 +66,8 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #F47920;
-  border-radius: 2px;
+  background: linear-gradient(to bottom, #F47920, #E63312);
+  border-radius: 4px;
 }
 
 /* Camera overlay */
@@ -58,4 +79,11 @@ body {
     transparent 80%,
     rgba(0, 0, 0, 0.5) 100%
   );
+}
+
+/* Smooth transitions - limited to UI elements only */
+button, a, input, select, label {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }

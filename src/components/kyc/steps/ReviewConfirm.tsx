@@ -14,9 +14,9 @@ interface ReviewConfirmProps {
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between items-start py-2.5 border-b border-gray-100 last:border-0">
-      <span className="text-sm text-gray-500 shrink-0 w-2/5">{label}</span>
-      <span className="text-sm font-medium text-gray-900 text-right">{value || "—"}</span>
+    <div className="flex justify-between items-start py-2.5 border-b border-gray-50 last:border-0">
+      <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide shrink-0 w-2/5">{label}</span>
+      <span className="text-sm font-semibold text-gray-800 text-right">{value || "—"}</span>
     </div>
   );
 }
@@ -27,10 +27,12 @@ function Section({ title, icon, children }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="flex items-center gap-2.5 px-4 py-3 bg-gray-50 border-b border-gray-100">
-        <span className="text-[#F47920]">{icon}</span>
-        <h3 className="font-semibold text-gray-900 text-sm">{title}</h3>
+    <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.09)] overflow-hidden">
+      <div className="flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+        <div className="w-7 h-7 rounded-lg bg-[#FFF3E8] flex items-center justify-center">
+          <span className="text-[#F47920]">{icon}</span>
+        </div>
+        <h3 className="font-bold text-gray-900 text-sm">{title}</h3>
       </div>
       <div className="px-4">{children}</div>
     </div>
@@ -109,15 +111,20 @@ export default function ReviewConfirm({
       transition={{ duration: 0.3 }}
       className="w-full space-y-4"
     >
-      <div className="text-center mb-2 space-y-2">
-        <div className="w-16 h-16 rounded-2xl bg-[#FFF3E8] flex items-center justify-center mx-auto">
+      <div className="text-center mb-4 space-y-2">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+          className="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#FFF3E8] to-[#FFE4CC] flex items-center justify-center mx-auto shadow-md shadow-orange-100"
+        >
           <svg className="w-8 h-8 text-[#F47920]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900">Révision finale</h2>
+        </motion.div>
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Révision finale</h2>
         <p className="text-gray-500 text-sm">
           Vérifiez vos informations avant la soumission définitive.
         </p>
@@ -183,7 +190,14 @@ export default function ReviewConfirm({
       </Section>
 
       {/* Consent */}
-      <label className="flex items-start gap-3 cursor-pointer">
+      <label className="flex items-start gap-3 cursor-pointer bg-white rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.09)] p-4">
+        <div className={`mt-0.5 w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${agreed ? "bg-[#F47920] border-[#F47920]" : "border-gray-300 bg-white"}`}>
+          {agreed && (
+            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
+          )}
+        </div>
         <input
           type="checkbox"
           checked={agreed}
@@ -191,12 +205,13 @@ export default function ReviewConfirm({
             setAgreed(e.target.checked);
             setError("");
           }}
-          className="mt-0.5 w-4 h-4 rounded border-gray-300 text-[#F47920] focus:ring-[#F47920] cursor-pointer"
+          className="sr-only"
         />
         <span className="text-xs text-gray-600 leading-relaxed">
           Je certifie que les informations fournies sont exactes et je consens au
           traitement de mes données personnelles par Moov Africa Togo conformément
-          à la politique de confidentialité.
+          à la{" "}
+          <span className="text-[#F47920] font-semibold">politique de confidentialité</span>.
         </span>
       </label>
 

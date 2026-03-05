@@ -20,7 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-medium text-gray-700 mb-1.5"
+            className="block text-xs font-semibold text-gray-600 mb-1.5 tracking-wide uppercase"
           >
             {label}
             {props.required && <span className="text-[#E63312] ml-1">*</span>}
@@ -28,13 +28,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <div
           className={`
-            relative flex items-center rounded-xl border-2 transition-all duration-200 bg-white
+            relative flex items-center rounded-xl border-2 transition-all duration-200
             ${
               error
-                ? "border-[#E63312] bg-red-50"
+                ? "border-[#E63312] bg-red-50/60"
                 : focused
-                ? "border-[#F47920] ring-2 ring-[#F47920]/10"
-                : "border-gray-200 hover:border-gray-300"
+                ? "border-[#F47920] bg-white shadow-[0_0_0_3px_rgba(244,121,32,0.12)]"
+                : "border-gray-200 bg-white hover:border-gray-300 shadow-sm"
             }
           `}
         >
@@ -55,8 +55,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               props.onBlur?.(e);
             }}
             className={`
-              w-full bg-transparent text-gray-900 placeholder-gray-400
-              focus:outline-none py-3 text-[15px]
+              w-full bg-transparent text-gray-900 placeholder-gray-300
+              focus:outline-none py-3 text-[15px] font-medium
               ${icon ? "pl-11" : "pl-4"}
               ${suffix ? "pr-12" : "pr-4"}
               ${className}
@@ -68,7 +68,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && (
-          <p className="mt-1.5 text-xs text-[#E63312] flex items-center gap-1">
+          <p className="mt-1.5 text-xs text-[#E63312] flex items-center gap-1 font-medium">
             <svg
               className="w-3.5 h-3.5 shrink-0"
               fill="currentColor"
@@ -84,7 +84,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           </p>
         )}
         {hint && !error && (
-          <p className="mt-1.5 text-xs text-gray-500">{hint}</p>
+          <p className="mt-1.5 text-xs text-gray-400 font-medium">{hint}</p>
         )}
       </div>
     );
