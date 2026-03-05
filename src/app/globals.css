@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --moov-orange: #F47920;
+  --moov-orange-dark: #D4600A;
+  --moov-orange-light: #FFF3E8;
+  --moov-red: #E63312;
+  --background: #f8f9fa;
+  --foreground: #1a1a2e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-moov-orange: var(--moov-orange);
+  --color-moov-orange-dark: var(--moov-orange-dark);
+  --color-moov-orange-light: var(--moov-orange-light);
+  --color-moov-red: var(--moov-red);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Lexend", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #F47920;
+  border-radius: 2px;
+}
+
+/* Camera overlay */
+.camera-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
