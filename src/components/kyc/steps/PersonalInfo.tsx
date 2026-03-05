@@ -82,107 +82,114 @@ export default function PersonalInfo({
       className="w-full"
     >
       <div className="text-center mb-6 space-y-2">
-        <div className="w-16 h-16 rounded-2xl bg-[#FFF3E8] flex items-center justify-center mx-auto mb-4">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+          className="w-16 h-16 rounded-3xl bg-gradient-to-br from-[#FFF3E8] to-[#FFE4CC] flex items-center justify-center mx-auto mb-3 shadow-md shadow-orange-100"
+        >
           <svg className="w-8 h-8 text-[#F47920]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
               d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
             />
           </svg>
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900">
+        </motion.div>
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
           Informations personnelles
         </h2>
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-sm leading-relaxed">
           Renseignez vos informations telles qu&apos;elles apparaissent sur votre pièce d&apos;identité.
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Name row */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* Identity section */}
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.09)] p-4 space-y-4">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Identité</p>
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              label="Nom de famille"
+              placeholder="Ex: KOFFI"
+              error={errors.lastName?.message}
+              required
+              {...register("lastName")}
+              onChange={(e) => {
+                const upper = e.target.value.toUpperCase();
+                setValue("lastName", upper, { shouldValidate: true });
+              }}
+            />
+            <Input
+              label="Prénoms"
+              placeholder="Ex: Komla Ama"
+              error={errors.firstName?.message}
+              required
+              {...register("firstName")}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              label="Date de naissance"
+              type="date"
+              max={maxDOBStr}
+              error={errors.dateOfBirth?.message}
+              required
+              {...register("dateOfBirth")}
+            />
+            <Input
+              label="Lieu de naissance"
+              placeholder="Ex: Lomé"
+              error={errors.placeOfBirth?.message}
+              required
+              {...register("placeOfBirth")}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Select
+              label="Nationalité"
+              options={NATIONALITY_OPTIONS.map((n) => ({ value: n, label: n }))}
+              placeholder="Choisir..."
+              error={errors.nationality?.message}
+              required
+              defaultValue={data.nationality || "Togolaise"}
+              {...register("nationality")}
+            />
+            <Select
+              label="Sexe"
+              options={[
+                { value: "M", label: "Masculin" },
+                { value: "F", label: "Féminin" },
+              ]}
+              placeholder="Choisir..."
+              error={errors.gender?.message}
+              required
+              defaultValue={data.gender}
+              {...register("gender")}
+            />
+          </div>
+        </div>
+
+        {/* Contact section */}
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.09)] p-4 space-y-4">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Coordonnées</p>
           <Input
-            label="Nom de famille"
-            placeholder="Ex: KOFFI"
-            error={errors.lastName?.message}
+            label="Profession"
+            placeholder="Ex: Commerçant(e), Employé(e), Étudiant(e)..."
+            error={errors.profession?.message}
             required
-            {...register("lastName")}
-            onChange={(e) => {
-              const upper = e.target.value.toUpperCase();
-              setValue("lastName", upper, { shouldValidate: true });
-            }}
+            {...register("profession")}
           />
           <Input
-            label="Prénoms"
-            placeholder="Ex: Komla Ama"
-            error={errors.firstName?.message}
+            label="Adresse de résidence"
+            placeholder="Ex: Quartier Bè, Rue 15, Maison 42"
+            error={errors.address?.message}
             required
-            {...register("firstName")}
+            {...register("address")}
           />
         </div>
 
-        {/* Date & place of birth */}
-        <div className="grid grid-cols-2 gap-3">
-          <Input
-            label="Date de naissance"
-            type="date"
-            max={maxDOBStr}
-            error={errors.dateOfBirth?.message}
-            required
-            {...register("dateOfBirth")}
-          />
-          <Input
-            label="Lieu de naissance"
-            placeholder="Ex: Lomé"
-            error={errors.placeOfBirth?.message}
-            required
-            {...register("placeOfBirth")}
-          />
-        </div>
-
-        {/* Nationality & Gender */}
-        <div className="grid grid-cols-2 gap-3">
-          <Select
-            label="Nationalité"
-            options={NATIONALITY_OPTIONS.map((n) => ({ value: n, label: n }))}
-            placeholder="Choisir..."
-            error={errors.nationality?.message}
-            required
-            defaultValue={data.nationality || "Togolaise"}
-            {...register("nationality")}
-          />
-          <Select
-            label="Sexe"
-            options={[
-              { value: "M", label: "Masculin" },
-              { value: "F", label: "Féminin" },
-            ]}
-            placeholder="Choisir..."
-            error={errors.gender?.message}
-            required
-            defaultValue={data.gender}
-            {...register("gender")}
-          />
-        </div>
-
-        {/* Profession */}
-        <Input
-          label="Profession"
-          placeholder="Ex: Commerçant(e), Employé(e), Étudiant(e)..."
-          error={errors.profession?.message}
-          required
-          {...register("profession")}
-        />
-
-        {/* Address */}
-        <Input
-          label="Adresse de résidence"
-          placeholder="Ex: Quartier Bè, Rue 15, Maison 42"
-          error={errors.address?.message}
-          required
-          {...register("address")}
-        />
-
-        <div className="flex gap-3 pt-2">
+        <div className="flex gap-3 pt-1">
           <Button variant="secondary" onClick={onBack} className="flex-1">
             Retour
           </Button>

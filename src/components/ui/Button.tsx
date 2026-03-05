@@ -29,13 +29,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        "bg-[#F47920] hover:bg-[#D4600A] active:bg-[#B85008] text-white focus:ring-[#F47920] shadow-lg shadow-orange-200",
+        "bg-gradient-to-r from-[#F47920] to-[#E8600A] hover:from-[#E06910] hover:to-[#D4550A] active:from-[#C85D08] active:to-[#B84C07] text-white focus:ring-[#F47920] shadow-lg shadow-orange-200/60",
       secondary:
-        "bg-white border-2 border-[#F47920] text-[#F47920] hover:bg-[#FFF3E8] active:bg-[#FFE4CC] focus:ring-[#F47920]",
+        "bg-white border-2 border-[#F47920]/70 text-[#F47920] hover:bg-[#FFF3E8] hover:border-[#F47920] active:bg-[#FFE4CC] focus:ring-[#F47920] shadow-sm",
       ghost:
         "bg-transparent text-[#F47920] hover:bg-[#FFF3E8] active:bg-[#FFE4CC] focus:ring-[#F47920]",
       danger:
-        "bg-[#E63312] hover:bg-[#c42a0e] text-white focus:ring-[#E63312] shadow-lg shadow-red-200",
+        "bg-gradient-to-r from-[#E63312] to-[#c42a0e] hover:from-[#d02e10] hover:to-[#b0260c] text-white focus:ring-[#E63312] shadow-lg shadow-red-200/60",
     };
 
     const sizes = {
